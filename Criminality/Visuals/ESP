@@ -308,6 +308,7 @@ function ESP:Add(obj, options)
 		Outline = true,
         Size = 19,
         Visible = self.Enabled and self.Names
+    })
 	box.Components["Weapons\n"] = Draw("Text", {
 		Color = box.Color,
 		Center = true,
