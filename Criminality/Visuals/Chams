@@ -1,0 +1,82 @@
+--Settings
+local CHAMS = {
+    Enabled = false,
+    Visible = false,
+    VisColor,
+    XQZ = false,
+    XQZColor,
+    VisTrans = 0,
+    XQZTrans = 0
+}
+--entirely pasted from v3rmillion cuz who gives a fuck
+
+
+local plr = game.Players.LocalPlayer
+local Players = game:GetService("Players")
+local RS = game:GetService("RunService")
+local faces = {"Front","Back","Bottom","Left","Right","Top"} --Every enum normal id face that can be used on a surface gui (6 to cover all 6 faces of a part)
+
+local function XQZchamPlayer(player, color)
+  for i,v in ipairs(player.Character:GetChildren()) do --Cycles through every part in the player's character
+       for j, face in pairs(faces) do --Cycles through all 6 faces
+           local surface = Instance.new("SurfaceGui") --Insert a new surface gui into the game
+           surface.Parent = v --The surface gui is placed upon the part we are cycled on
+           surface.Name = "cham" --So we can accsess it later
+           surface.Face = Enum.NormalId[face] --Sets the surface gui on the cycled face of the part
+           surface.AlwaysOnTop = true --So we can see the gui through walls
+           local mainFrame = Instance.new("Frame") --A surface gui is useless if it doesn't display anything
+           mainFrame.Parent = surface --Won't see the frame without it being on the surface gui
+           mainFrame.BackgroundColor3 = color --Set the color to what we have given it
+           mainFrame.BorderSizePixel = 0 --No border issues
+           mainFrame.BackgroundTransparency = CHAMS.XQZTrans --Slightly see through it
+           mainFrame.Size = UDim2.new(1,0,1,0) --Fill the entire part
+       end
+   end
+end
+
+local function VisChamPlayer(player, color)
+   for i,v in ipairs(player.Character:GetChildren()) do --Cycles through every part in the player's character
+       for j, face in pairs(faces) do --Cycles through all 6 faces
+           local surface = Instance.new("SurfaceGui") --Insert a new surface gui into the game
+           surface.Parent = v --The surface gui is placed upon the part we are cycled on
+           surface.Name = "cham" --So we can accsess it later
+           surface.Face = Enum.NormalId[face] --Sets the surface gui on the cycled face of the part
+           surface.AlwaysOnTop = false --So we can see the gui through walls
+           local mainFrame = Instance.new("Frame") --A surface gui is useless if it doesn't display anything
+           mainFrame.Parent = surface --Won't see the frame without it being on the surface gui
+           mainFrame.BackgroundColor3 = color --Set the color to what we have given it
+           mainFrame.BorderSizePixel = 0 --No border issues
+           mainFrame.BackgroundTransparency = CHAMS.VisTrans --Slightly see through it
+           mainFrame.Size = UDim2.new(1,0,1,0) --Fill the entire part
+       end
+   end
+end
+
+--Unused for intended use
+--local function reColorChams(player, color)
+--   for i,v in ipairs(player.Character:GetChildren()) do --Cycles through every part in the player's character
+--      for z, c in ipairs(v:GetChildren()) do --Gets every child of the part that could be a surface gui
+--           if c.Name == "cham" then --Makes sure the object's name is what we set it to
+--               c.Frame.BackgroundColor3 = color --Recolor's the frame
+--           end
+--       end
+--   end
+--end
+
+RS.RenderStepped:connect(function() --Main loop
+   for i, v in ipairs(Players:GetPlayers()) do --Cycle through every player
+       if v ~= plr then --Don't cham ourselves
+           if v.Character then --Make sure the player has a character
+               if v.Character.Head:FindFirstChild("cham") then --Make sure the player has chams
+                   correctChams(v)
+               else --If the player has no chams then give them some
+                   XQZchamPlayer(v, CHAMS.XQZColor) --Give chams
+                   VisChamPlayer(v, CHAMS.VisColor) --Give chams
+                   correctChams(v) --Correct the coloring of the player
+               end
+           end
+       end
+   end
+
+
+end)
