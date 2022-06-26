@@ -1,11 +1,13 @@
 --Settings
 local CHAMS = {
     Enabled = false,
-    Visible = false
-    XQZ = false
-    
-
-
+    Visible = false,
+    VisColor,
+    XQZ = false,
+    XQZColor,
+    VisTrans = 0,
+    XQZTrans = 0
+}
 --entirely pasted from v3rmillion cuz who gives a fuck
 
 
@@ -26,7 +28,7 @@ local function XQZchamPlayer(player, color)
            mainFrame.Parent = surface --Won't see the frame without it being on the surface gui
            mainFrame.BackgroundColor3 = color --Set the color to what we have given it
            mainFrame.BorderSizePixel = 0 --No border issues
-           mainFrame.BackgroundTransparency = 0.6 --Slightly see through it
+           mainFrame.BackgroundTransparency = CHAMS.XQZTrans --Slightly see through it
            mainFrame.Size = UDim2.new(1,0,1,0) --Fill the entire part
        end
    end
@@ -44,21 +46,22 @@ local function VisChamPlayer(player, color)
            mainFrame.Parent = surface --Won't see the frame without it being on the surface gui
            mainFrame.BackgroundColor3 = color --Set the color to what we have given it
            mainFrame.BorderSizePixel = 0 --No border issues
-           mainFrame.BackgroundTransparency = 1 --Slightly see through it
+           mainFrame.BackgroundTransparency = CHAMS.VisTrans --Slightly see through it
            mainFrame.Size = UDim2.new(1,0,1,0) --Fill the entire part
        end
    end
 end
 
-local function reColorChams(player, color)
-   for i,v in ipairs(player.Character:GetChildren()) do --Cycles through every part in the player's character
-       for z, c in ipairs(v:GetChildren()) do --Gets every child of the part that could be a surface gui
-           if c.Name == "cham" then --Makes sure the object's name is what we set it to
-               c.Frame.BackgroundColor3 = color --Recolor's the frame
-           end
-       end
-   end
-end
+--Unused for intended use
+--local function reColorChams(player, color)
+--   for i,v in ipairs(player.Character:GetChildren()) do --Cycles through every part in the player's character
+--      for z, c in ipairs(v:GetChildren()) do --Gets every child of the part that could be a surface gui
+--           if c.Name == "cham" then --Makes sure the object's name is what we set it to
+--               c.Frame.BackgroundColor3 = color --Recolor's the frame
+--           end
+--       end
+--   end
+--end
 
 RS.RenderStepped:connect(function() --Main loop
    for i, v in ipairs(Players:GetPlayers()) do --Cycle through every player
@@ -67,8 +70,8 @@ RS.RenderStepped:connect(function() --Main loop
                if v.Character.Head:FindFirstChild("cham") then --Make sure the player has chams
                    correctChams(v)
                else --If the player has no chams then give them some
-                   XQZchamPlayer(v, XQZColor) --Give chams
-                   VisChamPlayer(v, VisColor) --Give chams
+                   XQZchamPlayer(v, CHAMS.XQZColor) --Give chams
+                   VisChamPlayer(v, CHAMS.VisColor) --Give chams
                    correctChams(v) --Correct the coloring of the player
                end
            end
