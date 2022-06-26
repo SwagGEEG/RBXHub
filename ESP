@@ -232,9 +232,15 @@ function boxBase:Update()
             self.Components.Distance.Position = Vector2.new(TagPos.X, TagPos.Y + 14)
             self.Components.Distance.Text = math.floor((cam.CFrame.p - cf.p).magnitude) .."m away"
             self.Components.Distance.Color = color
+	    
+	    self.Components.Weapons.Visible = true
+	    self.Components.Weapons.Position = Vector2.new(TagPos.X, TagPos.Y + 28)
+	    self.Components.Weapons.Text = player.Backpack:FindFirstChild()
+	    self.Components.Weapons.Color = color
         else
             self.Components.Name.Visible = false
             self.Components.Distance.Visible = false
+	    self.Components.Weapons.Visible = false
         end
     else
         self.Components.Name.Visible = false
@@ -297,6 +303,12 @@ function ESP:Add(obj, options)
         Visible = self.Enabled and self.Names
 	})
 	box.Components["Distance"] = Draw("Text", {
+		Color = box.Color,
+		Center = true,
+		Outline = true,
+        Size = 19,
+        Visible = self.Enabled and self.Names
+	box.Components["Weapons\n"] = Draw("Text", {
 		Color = box.Color,
 		Center = true,
 		Outline = true,
